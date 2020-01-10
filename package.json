@@ -36,7 +36,6 @@
     "yargs": "^15.1.0"
   },
   "devDependencies": {
-    "@types/chalk": "^2.2.0",
     "@types/inquirer": "^6.5.0",
     "@types/jest": "^24.0.25",
     "@types/node": "^13.1.6",
