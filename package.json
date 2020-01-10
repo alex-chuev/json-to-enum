@@ -10,12 +10,13 @@
     "dist"
   ],
   "scripts": {
-    "start": "node dist/cli.js",
-    "start-init": "node dist/cli.js init",
-    "start-help": "node dist/cli.js --help",
+    "start": "node dist/cli.js -i *.json",
+    "start-init": "yarn start -- init",
+    "start-help": "yarn start -- --help",
     "watch": "tsc -w",
     "build": "tsc",
     "test": "jest",
+    "test-watch": "yarn test -- --watch",
     "prepublish": "yarn build"
   },
   "repository": {
@@ -35,12 +36,17 @@
   "homepage": "https://github.com/alex-chuev/json-to-enum#readme",
   "dependencies": {
     "chalk": "^3.0.0",
+    "chokidar": "^3.3.1",
+    "glob": "^7.1.6",
     "inquirer": "^7.0.3",
+    "lodash": "^4.17.15",
     "yargs": "^15.1.0"
   },
   "devDependencies": {
+    "@types/glob": "^7.1.1",
     "@types/inquirer": "^6.5.0",
     "@types/jest": "^24.0.25",
+    "@types/lodash": "^4.14.149",
     "@types/node": "^13.1.6",
     "@types/yargs": "^15.0.0",
     "husky": "^4.0.6",
@@ -54,7 +60,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$",
+    "testRegex": "\\.test\\.ts$",
     "moduleFileExtensions": [
       "ts",
       "tsx",

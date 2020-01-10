@@ -1,4 +1,4 @@
 export enum EnumValue {
-  Path,
-  Value,
+  Path = 'path',
+  Value = 'value',
 }
