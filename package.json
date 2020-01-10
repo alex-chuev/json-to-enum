@@ -10,6 +10,9 @@
     "dist"
   ],
   "scripts": {
+    "start": "node dist/cli.js",
+    "start-init": "node dist/cli.js init",
+    "start-help": "node dist/cli.js --help",
     "watch": "tsc -w",
     "build": "tsc",
     "test": "jest",
