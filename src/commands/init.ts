@@ -1,11 +1,11 @@
 import { Command } from '../enums/Command'
-import { EnumValue } from '../enums/EnumValue'
 import { Arguments, Options } from 'yargs'
+import { writeFileSync } from 'fs'
+import { FilenameCase } from '../enums/FilenameCase'
+import { EnumValue } from '../enums/EnumValue'
 
 export interface Args {
   path: string
-  glob: string
-  enumValue: EnumValue
 }
 
 export const command: string = Command.Init
@@ -20,5 +20,23 @@ export const builder: { [key: string]: Options } = {
 }
 
 export function handler(args: Arguments<Args>): void {
-  console.log(args)
+  const content = `const upperFirst = require('lodash/upperFirst');
+const camelCase = require('lodash/camelCase');
+
+module.exports = {
+  outputFolderCallback: path => path.dir,
+  outputFolder: '.', // will be ignored because outputFolderCallback is specified
+  enumNameCallback: path => upperFirst(camelCase(path.base)),
+  enumFilenameCase: '${FilenameCase.Kebab}',
+  enumFilenameEnding: '.ts',
+  enumValue: '${EnumValue.Path}',
+  enumValueQuotes: "'",
+  enumPathValueSeparator: '.',
+  enumTabs: false,
+  enumSpaces: 2,
+  enumExportDefault: true,
+};
+`
+
+  writeFileSync(args.path, content, 'utf-8')
 }

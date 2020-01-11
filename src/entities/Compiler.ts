@@ -5,6 +5,7 @@ import { CompileArgs } from '../commands/compile'
 import { EnumBuilder } from './EnumBuilder'
 
 export interface CompilerConfig {
+  input?: string
   outputFolder?: string
   outputFolderCallback?: (parsedPath: ParsedPath) => string
 }

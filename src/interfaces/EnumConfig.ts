@@ -11,5 +11,5 @@ export interface EnumConfig {
   enumSpaces: number
   enumExportDefault: boolean
   enumPathValueSeparator: string
-  enumQuotes: string
+  enumValueQuotes: string
 }

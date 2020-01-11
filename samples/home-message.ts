@@ -1,7 +1,7 @@
-enum HomeEn {
+enum HomeMessage {
   Title = 'title',
   MetaDescription = 'meta.description',
   MetaKeywords = 'meta.keywords',
 }
 
-export default HomeEn
+export default HomeMessage

@@ -65,13 +65,13 @@ export class EnumBuilder {
     }
 
     const encodedValue = this.encodeValue(value)
-    const quotes = this.config.enumQuotes
+    const quotes = this.config.enumValueQuotes
 
     return ` = ${quotes}${encodedValue}${quotes}`
   }
 
   private encodeValue(value: string): string {
-    const quotes = this.config.enumQuotes
+    const quotes = this.config.enumValueQuotes
 
     return toString(value).replace(quotes, `\\${quotes}`)
   }

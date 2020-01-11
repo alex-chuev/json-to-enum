@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "start": "node dist/cli.js -i samples/**/*.en.json",
+    "start": "node dist/cli.js -c samples/json-to-enum.js",
     "start-init": "node dist/cli.js init",
     "start-help": "node dist/cli.js --help",
     "watch": "tsc -w",
