@@ -11,8 +11,8 @@
   ],
   "scripts": {
     "start": "node dist/cli.js -i samples/**/*.en.json",
-    "start-init": "yarn start -- init",
-    "start-help": "yarn start -- --help",
+    "start-init": "node dist/cli.js init",
+    "start-help": "node dist/cli.js --help",
     "watch": "tsc -w",
     "build": "tsc",
     "test": "jest",

@@ -1,6 +1,6 @@
 import { Command } from '../enums/Command'
 import { EnumValue } from '../enums/EnumValue'
-import { Arguments, Argv } from 'yargs'
+import { Arguments, Options } from 'yargs'
 
 export interface Args {
   path: string
@@ -9,10 +9,14 @@ export interface Args {
 }
 
 export const command: string = Command.Init
-export const describe: string = 'Creates configuration file'
+export const describe: string = 'Creates default configuration file'
 
-export function builder(yargs: Argv<Args>): Argv<Args> {
-  return yargs
+export const builder: { [key: string]: Options } = {
+  path: {
+    alias: 'p',
+    demandOption: true,
+    default: 'json-to-enum.js',
+  },
 }
 
 export function handler(args: Arguments<Args>): void {
