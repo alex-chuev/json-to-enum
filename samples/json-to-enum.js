@@ -6,5 +6,4 @@ module.exports = {
   enumNameCallback: path => upperFirst(camelCase(path.name.replace('.en', 'Message'))),
   enumFilenameCase: 'camel',
   enumFilenameEnding: '.enum.ts',
-  enumValue: 'path',
 }

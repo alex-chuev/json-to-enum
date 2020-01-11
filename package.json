@@ -1,6 +1,6 @@
 {
   "name": "json-to-enum",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Creates TypeScript Enums based on JSON files",
   "main": "dist/index.js",
   "bin": {

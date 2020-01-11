@@ -24,6 +24,7 @@ export function handler(args: Arguments<Args>): void {
 const camelCase = require('lodash/camelCase');
 
 module.exports = {
+  input: 'src/**/*.json',
   outputFolderCallback: path => path.dir,
   outputFolder: '.', // will be ignored because outputFolderCallback is specified
   enumNameCallback: path => upperFirst(camelCase(path.base)),
