@@ -7,6 +7,7 @@ import { watch } from 'chokidar'
 import { EnumConfig } from '../interfaces/EnumConfig'
 import { existsSync } from 'fs'
 import { resolve } from 'path'
+import defaults from 'lodash/defaults'
 
 export interface CompileArgs extends EnumConfig, CompilerConfig {
   watch: boolean
@@ -33,39 +34,39 @@ export const builder: { [key: string]: Options } = {
   },
   watch: {
     alias: 'w',
-    default: false,
+    defaultDescription: 'false',
     boolean: true,
   },
   enumFilenameCase: {
-    default: FilenameCase.Kebab,
+    defaultDescription: FilenameCase.Default,
     string: true,
   },
   enumFilenameEnding: {
-    default: '.ts',
+    defaultDescription: '.ts',
     string: true,
   },
   enumValue: {
-    default: EnumValue.Path,
+    defaultDescription: EnumValue.Default,
     string: true,
   },
   enumTabs: {
-    default: false,
+    defaultDescription: 'false',
     boolean: true,
   },
   enumSpaces: {
-    default: 2,
+    defaultDescription: '2',
     number: true,
   },
   enumExportDefault: {
-    default: true,
+    defaultDescription: 'true',
     boolean: true,
   },
   enumPathValueSeparator: {
-    default: '.',
+    defaultDescription: '.',
     string: true,
   },
   enumValueQuotes: {
-    default: "'",
+    defaultDescription: "'",
     string: true,
   },
 }
@@ -77,10 +78,17 @@ export function handler(args: Arguments<CompileArgs>): void {
     try {
       const configFromFile: Partial<EnumConfig & CompilerConfig> = require(resolve(args.config))
 
-      args = {
-        ...configFromFile,
-        ...args,
-      }
+      args = defaults(args, configFromFile, {
+        watch: false,
+        enumFilenameCase: FilenameCase.Default,
+        enumFilenameEnding: '.ts',
+        enumValue: EnumValue.Default,
+        enumTabs: false,
+        enumSpaces: 2,
+        enumExportDefault: true,
+        enumPathValueSeparator: '.',
+        enumValueQuotes: "'",
+      })
     } catch (e) {}
   }
 
