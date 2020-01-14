@@ -10,6 +10,6 @@ export interface EnumConfig {
   enumTabs: boolean
   enumSpaces: number
   enumExportDefault: boolean
-  enumPathValueSeparator: string
   enumValueQuotes: string
+  jsonKeySeparator: string
 }

@@ -3,14 +3,15 @@ import isUndefined from 'lodash/isUndefined'
 import { parse } from 'path'
 import toString from 'lodash/toString'
 import kebabCase from 'lodash/kebabCase'
+import reduce from 'lodash/reduce'
 import { EnumValue } from '../enums/EnumValue'
-import { JsonItem } from '../interfaces/JsonItem'
 import { EnumConfig } from '../interfaces/EnumConfig'
 import { FilenameCase } from '../enums/FilenameCase'
+import { FlatJson } from '../interfaces/FlatJson'
 
 export interface EnumBuilderConfig extends EnumConfig {
   file: string
-  jsonItems: JsonItem[]
+  flatJson: FlatJson
 }
 
 export class EnumBuilder {
@@ -49,22 +50,26 @@ export class EnumBuilder {
   private get items(): string {
     const tab = this.createTab()
 
-    return this.config.jsonItems.reduce((result: string, item: JsonItem) => {
-      const key = this.createKey(item)
-      const valueSection = this.createValueSection(item)
+    return reduce(
+      this.config.flatJson,
+      (result: string, value: any, key: string) => {
+        const enumKey = upperCamelCase(key)
+        const valueSection = this.createValueSection(value, key)
 
-      return result + `${tab}${key}${valueSection},\n`
-    }, '\n')
+        return result + `${tab}${enumKey}${valueSection},\n`
+      },
+      '\n'
+    )
   }
 
-  private createValueSection(item: JsonItem): string {
-    const value = this.createValue(item)
+  private createValueSection(value: any, key: string): string {
+    const enumValue = this.createValue(value, key)
 
-    if (isUndefined(value)) {
+    if (isUndefined(enumValue)) {
       return ''
     }
 
-    const encodedValue = this.encodeValue(value)
+    const encodedValue = this.encodeValue(enumValue)
     const quotes = this.config.enumValueQuotes
 
     return ` = ${quotes}${encodedValue}${quotes}`
@@ -80,24 +85,16 @@ export class EnumBuilder {
     return this.config.enumTabs ? '\t' : ' '.repeat(this.config.enumSpaces)
   }
 
-  private createKey(item: JsonItem): string {
-    return upperCamelCase(item.keys.join())
-  }
-
-  private createValue(item: JsonItem): string | undefined {
+  private createValue(value: any, key: string): string | undefined {
     switch (this.config.enumValue) {
       case EnumValue.Path:
-        return this.createPathValue(item)
+        return key
       case EnumValue.Value:
-        return item.value
+        return value
       case EnumValue.None:
       default:
         return undefined
     }
-  }
-
-  private createPathValue(item: JsonItem): string {
-    return item.keys.join(this.config.enumPathValueSeparator)
   }
 
   private createName(): string {

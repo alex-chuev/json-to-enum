@@ -108,10 +108,10 @@ module.exports = {
   enumFilenameEnding: '.ts',
   enumValue: 'path',
   enumValueQuotes: "'",
-  enumPathValueSeparator: '.',
   enumTabs: false,
   enumSpaces: 2,
   enumExportDefault: true,
+  jsonKeySeparator: '.',
 };
 ```
 

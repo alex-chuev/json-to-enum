@@ -8,8 +8,9 @@ import { EnumConfig } from '../interfaces/EnumConfig'
 import { existsSync } from 'fs'
 import { resolve } from 'path'
 import defaults from 'lodash/defaults'
+import { JsonFlattenerConfig } from '../entities/JsonFlattener'
 
-export interface CompileArgs extends EnumConfig, CompilerConfig {
+export interface CompileArgs extends EnumConfig, CompilerConfig, JsonFlattenerConfig {
   watch: boolean
   config: string
 }
@@ -61,12 +62,12 @@ export const builder: { [key: string]: Options } = {
     defaultDescription: 'true',
     boolean: true,
   },
-  enumPathValueSeparator: {
-    defaultDescription: '.',
-    string: true,
-  },
   enumValueQuotes: {
     defaultDescription: "'",
+    string: true,
+  },
+  jsonKeySeparator: {
+    defaultDescription: '.',
     string: true,
   },
 }
@@ -86,8 +87,8 @@ export function handler(args: Arguments<CompileArgs>): void {
         enumTabs: false,
         enumSpaces: 2,
         enumExportDefault: true,
-        enumPathValueSeparator: '.',
         enumValueQuotes: "'",
+        jsonKeySeparator: '.',
       })
     } catch (e) {}
   }

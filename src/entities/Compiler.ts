@@ -1,4 +1,4 @@
-import { JsonParser } from './JsonParser'
+import { JsonFlattener } from './JsonFlattener'
 import { join, parse, ParsedPath } from 'path'
 import { writeFileSync } from 'fs'
 import { CompileArgs } from '../commands/compile'
@@ -14,11 +14,11 @@ export class Compiler {
   constructor(private file: string) {}
 
   compile(args: CompileArgs): void {
-    const jsonParser = new JsonParser(this.file)
+    const flatJson = JsonFlattener.getFlatJson(this.file, args)
     const enumBuilder = new EnumBuilder({
       ...args,
       file: this.file,
-      jsonItems: jsonParser.items,
+      flatJson,
     })
 
     this.output(args, enumBuilder.fileName, enumBuilder.content)
