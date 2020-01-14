@@ -3,6 +3,8 @@ import { join, parse, ParsedPath } from 'path'
 import { writeFileSync } from 'fs'
 import { CompileArgs } from '../commands/compile'
 import { EnumBuilder } from './EnumBuilder'
+import chalk from 'chalk'
+import { Logger } from './Logger'
 
 export interface CompilerConfig {
   input?: string
@@ -24,14 +26,18 @@ export class Compiler {
     this.output(args, enumBuilder.fileName, enumBuilder.content)
   }
 
-  private output(config: CompilerConfig, fileName: string, content: string): void {
+  private output(config: CompileArgs, fileName: string, content: string): void {
     const folder = this.getOutputFolder(config)
     const path = join(folder, fileName)
+
+    if (!config.silent) {
+      Logger.log(`File ${path} has been updated`, chalk.green)
+    }
 
     writeFileSync(path, content, 'utf-8')
   }
 
-  private getOutputFolder(config: CompilerConfig): string {
+  private getOutputFolder(config: CompileArgs): string {
     const parsedPath = parse(this.file)
 
     if (config.outputFolderCallback) {

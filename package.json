@@ -35,6 +35,7 @@
   },
   "homepage": "https://github.com/alex-chuev/json-to-enum#readme",
   "dependencies": {
+    "chalk": "^3.0.0",
     "chokidar": "^3.3.1",
     "flat": "^5.0.0",
     "json5": "^2.1.1",

@@ -9,9 +9,11 @@ import { existsSync } from 'fs'
 import { resolve } from 'path'
 import defaults from 'lodash/defaults'
 import { JsonFlattenerConfig } from '../entities/JsonFlattener'
+import { Logger } from '../entities/Logger'
 
 export interface CompileArgs extends EnumConfig, CompilerConfig, JsonFlattenerConfig {
   watch: boolean
+  silent: boolean
   config: string
 }
 
@@ -35,6 +37,11 @@ export const builder: { [key: string]: Options } = {
   },
   watch: {
     alias: 'w',
+    defaultDescription: 'false',
+    boolean: true,
+  },
+  silent: {
+    alias: 's',
     defaultDescription: 'false',
     boolean: true,
   },
@@ -70,10 +77,20 @@ export const builder: { [key: string]: Options } = {
     defaultDescription: '.',
     string: true,
   },
+  jsonFlattenArray: {
+    defaultDescription: 'false',
+    boolean: true,
+  },
 }
 
 export function handler(args: Arguments<CompileArgs>): void {
-  const compile = (file: string) => new Compiler(file).compile(args)
+  const compile = (file: string) => {
+    if (!args.silent) {
+      Logger.log(`File ${file} is being processed`)
+    }
+
+    new Compiler(file).compile(args)
+  }
 
   if (existsSync(args.config)) {
     try {
@@ -81,6 +98,7 @@ export function handler(args: Arguments<CompileArgs>): void {
 
       args = defaults(args, configFromFile, {
         watch: false,
+        silent: false,
         enumFilenameCase: FilenameCase.Default,
         enumFilenameEnding: '.ts',
         enumValue: EnumValue.Default,
@@ -89,6 +107,7 @@ export function handler(args: Arguments<CompileArgs>): void {
         enumExportDefault: true,
         enumValueQuotes: "'",
         jsonKeySeparator: '.',
+        jsonFlattenArray: false,
       })
     } catch (e) {}
   }

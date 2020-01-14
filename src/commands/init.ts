@@ -36,6 +36,7 @@ module.exports = {
   enumSpaces: 2,
   enumExportDefault: true,
   jsonKeySeparator: '.',
+  jsonFlattenArray: false,
 };
 `
 

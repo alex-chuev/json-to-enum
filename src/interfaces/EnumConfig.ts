@@ -12,4 +12,5 @@ export interface EnumConfig {
   enumExportDefault: boolean
   enumValueQuotes: string
   jsonKeySeparator: string
+  jsonFlattenArray: boolean
 }
