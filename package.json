@@ -40,6 +40,7 @@
     "flat": "^5.0.0",
     "json5": "^2.1.1",
     "lodash": "^4.17.15",
+    "ramda": "^0.27.0",
     "yargs": "^15.1.0"
   },
   "devDependencies": {
@@ -48,6 +49,7 @@
     "@types/json5": "^0.0.30",
     "@types/lodash": "^4.14.149",
     "@types/node": "^13.1.6",
+    "@types/ramda": "^0.26.43",
     "@types/yargs": "^15.0.0",
     "husky": "^4.0.6",
     "jest": "^24.9.0",

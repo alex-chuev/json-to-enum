@@ -2,8 +2,8 @@ import { ParsedPath } from 'path'
 import { EnumValue } from '../enums/EnumValue'
 import { FilenameCase } from '../enums/FilenameCase'
 
-export interface EnumConfig {
-  enumNameCallback: (parsedPath: ParsedPath) => string
+export type EnumConfig = {
+  enumNameCallback?: (parsedPath: ParsedPath) => string
   enumFilenameCase: FilenameCase
   enumFilenameEnding: string
   enumValue: EnumValue

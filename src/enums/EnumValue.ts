@@ -1,6 +1,6 @@
 export enum EnumValue {
   Default = 'path',
   None = 'none',
-  Path = 'path',
+  Key = 'key',
   Value = 'value',
 }

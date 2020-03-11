@@ -2,20 +2,9 @@ import { Command } from '../enums/Command'
 import { Arguments, Options } from 'yargs'
 import { EnumValue } from '../enums/EnumValue'
 import { FilenameCase } from '../enums/FilenameCase'
-import { Compiler, CompilerConfig } from '../entities/Compiler'
-import { watch } from 'chokidar'
-import { EnumConfig } from '../interfaces/EnumConfig'
-import { existsSync } from 'fs'
-import { resolve } from 'path'
-import defaults from 'lodash/defaults'
-import { JsonFlattenerConfig } from '../entities/JsonFlattener'
-import { Logger } from '../entities/Logger'
-
-export interface CompileArgs extends EnumConfig, CompilerConfig, JsonFlattenerConfig {
-  watch: boolean
-  silent: boolean
-  config: string
-}
+import { CompileConfig } from '../types/CompileConfig'
+import { mutateConfig } from '../functions/config/mutateConfig'
+import { compileAndWatch } from '../functions/compile/compileAndWatch'
 
 export const command: string = Command.Compile
 export const describe: string = 'Creates TypeScript Enums based on JSON files'
@@ -46,7 +35,7 @@ export const builder: { [key: string]: Options } = {
     boolean: true,
   },
   enumFilenameCase: {
-    defaultDescription: FilenameCase.Default,
+    defaultDescription: FilenameCase.Kebab,
     string: true,
   },
   enumFilenameEnding: {
@@ -83,40 +72,7 @@ export const builder: { [key: string]: Options } = {
   },
 }
 
-export function handler(args: Arguments<CompileArgs>): void {
-  const compile = (file: string) => {
-    if (!args.silent) {
-      Logger.log(`File ${file} is being processed`)
-    }
-
-    new Compiler(file).compile(args)
-  }
-
-  if (existsSync(args.config)) {
-    try {
-      const configFromFile: Partial<EnumConfig & CompilerConfig> = require(resolve(args.config))
-
-      args = defaults(args, configFromFile, {
-        watch: false,
-        silent: false,
-        enumFilenameCase: FilenameCase.Default,
-        enumFilenameEnding: '.ts',
-        enumValue: EnumValue.Default,
-        enumTabs: false,
-        enumSpaces: 2,
-        enumExportDefault: true,
-        enumValueQuotes: "'",
-        jsonKeySeparator: '.',
-        jsonFlattenArray: false,
-      })
-    } catch (e) {}
-  }
-
-  if (args.input) {
-    watch(args.input, {
-      persistent: args.watch,
-    })
-      .on('add', file => compile(file))
-      .on('change', file => compile(file))
-  }
+export function handler(args: Arguments<CompileConfig>): void {
+  mutateConfig(args)
+  compileAndWatch(args)
 }

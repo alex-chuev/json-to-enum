@@ -30,7 +30,7 @@ module.exports = {
   enumNameCallback: path => upperFirst(camelCase(path.base)),
   enumFilenameCase: '${FilenameCase.Kebab}',
   enumFilenameEnding: '.ts',
-  enumValue: '${EnumValue.Path}',
+  enumValue: '${EnumValue.Key}',
   enumValueQuotes: "'",
   enumTabs: false,
   enumSpaces: 2,
